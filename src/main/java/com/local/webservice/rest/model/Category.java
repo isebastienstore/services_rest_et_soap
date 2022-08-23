@@ -1,5 +1,6 @@
 package com.local.webservice.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,12 +17,23 @@ public class Category {
 
     private String libelle;
 
- /*   @OneToMany(
-            fetch = FetchType.EAGER,
-            mappedBy = "category"
+    @OneToMany(
+            mappedBy = "category",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private Collection<Article> articles;*/
+    @JsonIgnore
+    private Collection<Article> articles;
 
+    public void addArticle(Article article){
+        articles.add(article);
+        article.setCategory(this);
+    }
+
+    public void removeArticle(Article article){
+        articles.remove(article);
+        article.setCategory(null);
+    }
     
 
 }

@@ -12,24 +12,12 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository{
 
     @Autowired
     private EntityManager entityManager;
-
-
     @Override
-    public List<Article> findByCategory(final String category) {
+    public List<Article> findAllByCategory(final String category) {
         String sql = "SELECT a FROM Article a WHERE a.category.libelle=:category";
 
         final TypedQuery<Article> query = entityManager.createQuery(sql, Article.class);
         query.setParameter("category", category);
         return query.getResultList();
     }
-
-    @Override
-    public int deletebyCategory(String category) {
-        String sql = "DELETE FROM Article a WHERE a.category.libelle=:category";
-
-        final TypedQuery<Article> query = entityManager.createQuery(sql, Article.class);
-        query.setParameter("category", category);
-        return query.executeUpdate();
-    }
-
 }

@@ -1,37 +1,51 @@
 package com.local.webservice.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "Article", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_article_categorie", columnNames = {"category_id"})
-})
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String titre;
-    @Column(length = 5000)
-    private String contenu;
+    @Column(name = "titre")
+    private String title;
+    @Column(name = "contenu", length = 5000)
+    private String content;
 
-    private Timestamp dateCreation;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_creation", nullable = false)
+    private Date createdDate;
 
-    private Timestamp dateModification;
+    @PrePersist
+    private void onCreate(){
+        createdDate = new Date();
+    }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+
+/*
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    private String dateCreation;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    private String dateModification;
+
+ */
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "category_id")
     private Category category;
-    private int categorie;
 
     @Override
     public String toString(){
-        return titre+" : "+contenu;
+        return title+" : "+content;
     }
 
 }

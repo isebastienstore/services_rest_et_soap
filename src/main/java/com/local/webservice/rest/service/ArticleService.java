@@ -16,32 +16,24 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public List<Article> getArticles(){
+    public Iterable<Article> getArticles(){
         return articleRepository.findAll();
     }
 
-    public Article getArticleById(final Long id){
-        Optional<Article> article = articleRepository.findById(id);
-        if (article.isPresent())
-            return article.get();
-        else
-            return null;
+    public Optional<Article> getArticleById(final Long id){
+         return articleRepository.findById(id);
     }
 
     public List<Article> getArticlesyCategory(@PathVariable(name = "category") final String category){
-        return articleRepository.findByCategory(category);
+        return articleRepository.findAllByCategory(category);
     }
 
-    public Article saveArticle(@RequestBody Article article){
+    public Article saveArticle(Article article){
         Article article1 = articleRepository.save(article);
         return article1;
     }
 
-    public void deleteArticleById(@PathVariable(name = "id") final Long id){
+    public void deleteArticleById(final Long id){
         articleRepository.deleteById(id);
-    }
-
-    public int deletebyCategory(@PathVariable(name = "category") final String category) {
-        return articleRepository.deletebyCategory(category);
     }
 }

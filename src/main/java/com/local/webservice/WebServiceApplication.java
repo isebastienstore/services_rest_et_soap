@@ -7,10 +7,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.transaction.Transactional;
 import java.util.List;
 //import javax.xml.ws.Endpoint;
 
 @SpringBootApplication
+@Transactional
 public class WebServiceApplication implements CommandLineRunner{
 
 	@Autowired
@@ -22,23 +24,6 @@ public class WebServiceApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		List<Article> articles = articleRepository.findAll();
-		for (Article article: articles){
-			System.out.println(article.getTitre()+"\n");
-		}
-		//Endpoint.publish("http://localhost:3000/", new UserWebService());
-
-		/*
-				categoryService.getCategories().forEach(
-				category -> System.out.println(category.getName()));
-
-		Category newCategory = new Category();
-		newCategory.setName("Promotion");
-
-		newCategory = categoryService.addCategory(newCategory);
-
-		categoryService.getCategories().forEach(
-				category -> System.out.println(category.getName()));
-		 */
+		System.out.println("Hello !\n L'application a démaré avec sucès !!!");
 	}
 }

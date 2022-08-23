@@ -14,58 +14,25 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getUsers(){
+    public List<User> getAllUser(){
         return userRepository.findAll();
     }
 
-    public User getUserById(final Long id){
-        Optional<User> user = userRepository.findById(id);
-        if ( user.isPresent())
-            return user.get();
-        else
-            return null;
+    public Optional<User> getUserById(final Long id){
+        return userRepository.findById(id);
     }
 
-    public User getUserByFirstName(final String first_name){
-        return userRepository.findByFirstName(first_name);
+    public User addUser(User user){
+        return userRepository.save(user);
     }
 
-    public String addUser(User user){
-        String message = null;
-        if (userRepository.existsById(user.getId())){
-            message = "L'utilisateur existe deja !";
-        }
-        else {
-            userRepository.save(user);
-            message = "Utilisateur ajouté avec succès";
-        }
-        return message;
-    }
-
-    public User updateUser(final Long id, final User user){
-        User user1 = null;
-        if(userRepository.existsById(id))
-            user1 = userRepository.updateUser(id, user);
-        return user1;
-    }
+    public User updateUser(final Long id, final User user){return null;}
 
     public void deleteUser(User user){
         userRepository.delete(user);
     }
 
-    public int deleteUserByFirstName(final String first_name){
-        return userRepository.deleteByFirstName(first_name);
-    }
-
-    public String deleteUserById(final Long id){
-        String message = null;
-        if (userRepository.existsById(id)){
-            userRepository.deleteById(id);
-            message = "Utilisateur supprimé avec succès !";
-        }
-        else {
-            message = "L'utilisateur n'existe pas !";
-        }
-        return message;
+    public void deleteUserById(final Long id){
+        userRepository.deleteById(id);
     }
 }
